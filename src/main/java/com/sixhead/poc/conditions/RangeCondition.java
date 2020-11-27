@@ -1,34 +1,24 @@
 package com.sixhead.poc.conditions;
 
-import com.sixhead.poc.effects.Effect;
+import com.sixhead.poc.cards.Specification;
+import com.sixhead.poc.execution.GameEvent;
 
-public class RangeCondition implements Condition {
-    private final int lower;
-    private final int upper;
-    private final Effect effect;
+import java.util.Collection;
 
-    public RangeCondition(int lower, int upper, Effect effect) {
-        this.lower = lower;
-        this.upper = upper;
-        this.effect = effect;
-    }
+public class RangeCondition extends BaseCondition<Integer> {
+  private final int lower;
+  private final int upper;
 
-    @Override
-    public boolean meetsCondition(Object value) {
-        // check if value is integer
-        if (!(value instanceof Integer)) {
-            throw new RuntimeException("unable to check range for non integer");
-        }
+  public RangeCondition(int lower, int upper, Collection<GameEvent> events) {
+    super(events);
+    this.lower = lower;
+    this.upper = upper;
+  }
 
-        // parse to integer
-        int i = (Integer)value;
 
-        // check range parameters
-        return i >= lower && i <= upper;
-    }
+  @Override
+  public boolean meetsCondition(Integer value) {
+    return value <= upper && value >= lower;
+  }
 
-    @Override
-    public Effect getEffect() {
-        return this.effect;
-    }
 }

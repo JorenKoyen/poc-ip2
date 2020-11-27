@@ -1,8 +1,11 @@
 package com.sixhead.poc.conditions;
 
-import com.sixhead.poc.effects.Effect;
+import com.sixhead.poc.cards.Specification;
+import com.sixhead.poc.execution.GameEvent;
 
-public interface Condition {
-    boolean meetsCondition(Object value);
-    Effect getEffect();
+import java.util.Collection;
+
+public interface Condition<IN> {
+    boolean meetsCondition(IN value);
+    Collection<GameEvent> getEvents();
 }

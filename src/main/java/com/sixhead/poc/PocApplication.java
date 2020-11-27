@@ -2,8 +2,9 @@ package com.sixhead.poc;
 
 import com.sixhead.poc.cards.CardDefinition;
 import com.sixhead.poc.cards.OldScratchs;
-import com.sixhead.poc.cards.DeathFairy;
-
+import com.sixhead.poc.execution.ActionSpecHandler;
+import com.sixhead.poc.execution.ConditionSpecHandler;
+import com.sixhead.poc.execution.Executor;
 
 import java.util.Collection;
 import java.util.List;
@@ -11,19 +12,22 @@ import java.util.List;
 public class PocApplication {
 
 	public static void main(String[] args) {
-		Collection<CardDefinition> definitions = List.of(
-				new OldScratchs(),
-				new DeathFairy()
+		Player yourself = new Player();
+		Executor executor = new Executor();
+		executor.register(new ActionSpecHandler());
+		executor.register(new ConditionSpecHandler());
+
+
+		Collection<CardDefinition> cards = List.of(
+				new OldScratchs()
 		);
 
-		CardExecutor executor = new CardExecutor();
-		for (CardDefinition def : definitions) {
-			var card = def.getCard();
-			System.out.printf("-----\nexecuting card:\t%s\n", def.getName());
-			executor.execute(card);
-			System.out.println();
+		for (CardDefinition definition : cards) {
+			var card = definition.getCard();
+			executor.enqueue(card.getEvents(), yourself);
 		}
 
+		executor.start();
 	}
 
 }

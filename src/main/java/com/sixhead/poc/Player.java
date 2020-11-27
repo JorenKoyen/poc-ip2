@@ -1,22 +1,23 @@
 package com.sixhead.poc;
 
-import com.sixhead.poc.target.Damageable;
+import com.sixhead.poc.execution.Initiator;
+import com.sixhead.poc.target.DamageableTarget;
 
-public class Player implements Damageable {
-    private int hp;
+public class Player implements DamageableTarget, Initiator {
+  private int hp = 20;
 
-    @Override
-    public void heal(int amount) {
-        this.hp += amount;
-    }
+  @Override
+  public void damage(int amount) {
+    this.hp -= amount;
+  }
 
-    @Override
-    public void damage(int amount) {
-        this.hp -= amount;
-    }
+  @Override
+  public void heal(int amount) {
+    this.hp  += amount;
+  }
 
-    @Override
-    public boolean isDead() {
-        return this.hp <= 0;
-    }
+  @Override
+  public boolean isAlive() {
+    return this.hp > 0;
+  }
 }

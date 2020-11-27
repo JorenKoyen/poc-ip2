@@ -1,4 +1,4 @@
-package com.sixhead.poc;
+package com.sixhead.poc.cards;
 
 public interface Specification {
 }

@@ -1,7 +1,7 @@
 package com.sixhead.poc.actions;
 
-import com.sixhead.poc.Specification;
+import com.sixhead.poc.cards.Specification;
 
-public interface Action extends Specification {
-    Object output();
+public interface Action<OUT> extends Specification {
+    OUT activate();
 }

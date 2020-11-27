@@ -1,46 +1,47 @@
 package com.sixhead.poc.cards;
 
 import com.sixhead.poc.Card;
-import com.sixhead.poc.Player;
-import com.sixhead.poc.Specification;
-import com.sixhead.poc.actions.Action;
 import com.sixhead.poc.actions.DieRollAction;
 import com.sixhead.poc.conditions.Condition;
 import com.sixhead.poc.conditions.ConditionFormula;
 import com.sixhead.poc.conditions.RangeCondition;
 import com.sixhead.poc.effects.DamageEffect;
-import com.sixhead.poc.effects.Effect;
 import com.sixhead.poc.effects.HealEffect;
-import com.sixhead.poc.target.Target;
+import com.sixhead.poc.execution.*;
+import com.sixhead.poc.target.TargetReference;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class OldScratchs implements CardDefinition {
-    @Override
-    public Card getCard() {
-        // die roll
-        Action dieRoll = new DieRollAction();
+  @Override
+  public Card getCard() {
+    Card card = new Card();
 
-        // effect
-        Target target = new Player();
-        Effect heal = new HealEffect(target);
-        Effect dmg = new DamageEffect(target);
+    // roll a die
+    card.addEvent(new ActionGameEvent(new DieRollAction()));
 
-        // conditions
-        Condition r1 = new RangeCondition(1, 3, dmg);
-        Condition r2 = new RangeCondition(4, 6, heal);
-        ConditionFormula formula = new ConditionFormula(List.of(r1, r2));
+    // damage event
+    var dmg = new EffectGameEvent(
+        new Object[]{InputVariable.STATE}, // state defines die roll
+        new DamageEffect(),
+        TargetReference.YOURSELF
+    );
 
-        // card
-        LinkedList<Specification> specs = new LinkedList<>();
-        specs.add(dieRoll);
-        specs.add(formula);
-        return new Card(specs);
-    }
+    // heal event
+    var heal = new EffectGameEvent(
+        new Object[]{InputVariable.STATE}, // state defines die roll
+        new HealEffect(),
+        TargetReference.YOURSELF
+    );
 
-    @Override
-    public String getName() {
-        return "Old Scratch";
-    }
+    // define condition
+    Condition<Integer> dmgCondition = new RangeCondition(1, 3, List.of(dmg));
+    Condition<Integer> healCondition = new RangeCondition(4, 6, List.of(heal));
+    card.addEvent(new ConditionGameEvent(
+        new Condition[]{dmgCondition, healCondition},
+        new Object[]{InputVariable.STATE})
+    );
+
+    return card;
+  }
 }
