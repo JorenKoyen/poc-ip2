@@ -20,4 +20,8 @@ public class Player implements DamageableTarget, Initiator {
   public boolean isAlive() {
     return this.hp > 0;
   }
+
+  public int getHp() {
+    return hp;
+  }
 }

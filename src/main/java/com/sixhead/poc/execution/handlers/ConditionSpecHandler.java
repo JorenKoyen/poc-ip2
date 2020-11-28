@@ -2,7 +2,7 @@ package com.sixhead.poc.execution.handlers;
 
 import com.sixhead.poc.conditions.Condition;
 import com.sixhead.poc.execution.*;
-import com.sixhead.poc.execution.extractors.Extractor;
+import com.sixhead.poc.execution.extractors.ArgumentExtractor;
 import com.sixhead.poc.util.Logger;
 
 import java.util.Collection;
@@ -14,7 +14,7 @@ public class ConditionSpecHandler implements SpecificationHandler<ConditionGameE
   public void handle(ConditionGameEvent event, Initiator initiator, Executor executor) {
     // retrieve input definition
     var argDefinition = event.getArgs();
-    var inputs = new Extractor(executor).extractInputValues(argDefinition);
+    var inputs = new ArgumentExtractor(executor).extractInputValues(argDefinition);
 
     // compare first input with expected condition input
     Class<?> inputType = inputs[0].getClass();

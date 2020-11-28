@@ -6,11 +6,11 @@ import com.sixhead.poc.execution.InputVariable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Extractor {
+public class ArgumentExtractor {
   private final Executor executor;
   private final Map<InputVariable, InputVariableExtractor> inputVariableExtractors;
 
-  public Extractor(Executor executor) {
+  public ArgumentExtractor(Executor executor) {
     this.executor = executor;
     this.inputVariableExtractors = new HashMap<>();
 

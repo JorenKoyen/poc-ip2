@@ -5,6 +5,7 @@ import com.sixhead.poc.cards.OldScratchs;
 import com.sixhead.poc.execution.handlers.ActionSpecHandler;
 import com.sixhead.poc.execution.handlers.ConditionSpecHandler;
 import com.sixhead.poc.execution.Executor;
+import com.sixhead.poc.execution.handlers.EffectSpecHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -18,6 +19,7 @@ public class PocApplication {
 		Executor executor = new Executor();
 		executor.register(new ActionSpecHandler());
 		executor.register(new ConditionSpecHandler());
+		executor.register(new EffectSpecHandler());
 
 
 		Collection<CardDefinition> cards = List.of(
@@ -31,6 +33,7 @@ public class PocApplication {
 
 		try {
 			executor.start();
+			System.out.println(yourself.getHp());
 		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
