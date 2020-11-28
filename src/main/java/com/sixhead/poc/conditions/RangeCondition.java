@@ -21,4 +21,9 @@ public class RangeCondition extends BaseCondition<Integer> {
     return value <= upper && value >= lower;
   }
 
+  @Override
+  public Class<Integer> getInputClass() {
+    return Integer.class;
+  }
+
 }

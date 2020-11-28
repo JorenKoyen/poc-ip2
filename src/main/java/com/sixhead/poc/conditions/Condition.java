@@ -8,4 +8,5 @@ import java.util.Collection;
 public interface Condition<IN> {
     boolean meetsCondition(IN value);
     Collection<GameEvent> getEvents();
+    Class<IN> getInputClass();
 }

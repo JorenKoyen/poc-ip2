@@ -49,6 +49,9 @@ public class Executor {
   public void enqueue(Collection<GameEvent> events, Initiator initiator) {
     events.forEach(e -> this.enqueue(e, initiator));
   }
+  public void enqueue(Collection<GameEvent> events, Initiator initiator, boolean prioritise) {
+    events.forEach(e -> this.enqueue(e, initiator, prioritise));
+  }
 
   // -- handler operations ----------------------
   public void register(SpecificationHandler<? extends GameEvent> handler) {

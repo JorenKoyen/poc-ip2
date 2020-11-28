@@ -3,7 +3,6 @@ package com.sixhead.poc.cards;
 import com.sixhead.poc.Card;
 import com.sixhead.poc.actions.DieRollAction;
 import com.sixhead.poc.conditions.Condition;
-import com.sixhead.poc.conditions.ConditionFormula;
 import com.sixhead.poc.conditions.RangeCondition;
 import com.sixhead.poc.effects.DamageEffect;
 import com.sixhead.poc.effects.HealEffect;
