@@ -1,8 +1,11 @@
 package com.sixhead.poc.execution;
 
 import com.sixhead.poc.Tuple;
+import com.sixhead.poc.execution.handlers.SpecificationHandler;
 import com.sixhead.poc.util.Logger;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Executor {
@@ -17,12 +20,12 @@ public class Executor {
     this.handlers = new HashMap<>();
   }
 
-  protected void setBufferState(Object o) {
+  public void setBufferState(Object o) {
     this.buffer[this.pointer] = o;
     this.pointer = (this.pointer + 1) % this.buffer.length;
   }
 
-  protected Object getLastState() {
+  public Object getLastState() {
     int previousPointer = this.pointer - 1;
     previousPointer = previousPointer < 0 ? this.buffer.length + previousPointer : previousPointer;
     return this.buffer[previousPointer];
@@ -44,7 +47,7 @@ public class Executor {
    * Main processing loop that iterates
    * over the enqueued game events
    */
-  public void start() {
+  public void start() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     // init buffer
     this.buffer = new Object[5];
     this.pointer = 0;
@@ -59,14 +62,14 @@ public class Executor {
           event.getClass().getSimpleName(),
           initiator.getClass().getSimpleName());
 
+      // get method reference for handling event
+      Method handle = SpecificationHandler
+          .class.getDeclaredMethod("handle", GameEvent.class, Initiator.class, Executor.class);
 
-      // extract handler from registered handlers
-      @SuppressWarnings("unchecked") // suppress warning for unchecked casting
-      SpecificationHandler<GameEvent> handler = (SpecificationHandler<GameEvent>) this.handlers.get(event.getClass());
-      if (handler == null) throw new RuntimeException("handling of this specification is not supported");
-
-      // start handling of event
-      handler.handle(tuple.x, initiator, this);
+      // invoke handling of event
+      SpecificationHandler<?> instance = this.handlers.get(event.getClass());
+      if (instance == null) throw new RuntimeException("handling of this event is not supported");
+      handle.invoke(instance, tuple.x, initiator, this);
 
       // log buffer usage
       log.info("buffer: " + Arrays.toString(buffer));

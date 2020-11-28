@@ -1,5 +1,8 @@
-package com.sixhead.poc.execution;
+package com.sixhead.poc.execution.handlers;
 
+import com.sixhead.poc.execution.ConditionGameEvent;
+import com.sixhead.poc.execution.Executor;
+import com.sixhead.poc.execution.Initiator;
 import com.sixhead.poc.util.Logger;
 
 public class ConditionSpecHandler implements SpecificationHandler<ConditionGameEvent> {

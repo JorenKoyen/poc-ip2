@@ -1,12 +1,16 @@
-package com.sixhead.poc.execution;
+package com.sixhead.poc.execution.handlers;
+
+import com.sixhead.poc.execution.ActionGameEvent;
+import com.sixhead.poc.execution.Executor;
+import com.sixhead.poc.execution.Initiator;
+import com.sixhead.poc.util.Logger;
 
 public class ActionSpecHandler implements SpecificationHandler<ActionGameEvent> {
+  private final Logger log = Logger.getLogger("ActionHandler");
+
   @Override
   public void handle(ActionGameEvent event, Initiator initiator, Executor executor) {
-    // TODO: explicitly check class matching
-
     // TODO: determine output of action based in generic reference
-//    action.getClass().getDeclaredMethod("activate")
     Object output = event.getAction().activate();
     executor.setBufferState(output);
   }

@@ -2,14 +2,16 @@ package com.sixhead.poc;
 
 import com.sixhead.poc.cards.CardDefinition;
 import com.sixhead.poc.cards.OldScratchs;
-import com.sixhead.poc.execution.ActionSpecHandler;
-import com.sixhead.poc.execution.ConditionSpecHandler;
+import com.sixhead.poc.execution.handlers.ActionSpecHandler;
+import com.sixhead.poc.execution.handlers.ConditionSpecHandler;
 import com.sixhead.poc.execution.Executor;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 
 public class PocApplication {
+
 
 	public static void main(String[] args) {
 		Player yourself = new Player();
@@ -27,7 +29,11 @@ public class PocApplication {
 			executor.enqueue(card.getEvents(), yourself);
 		}
 
-		executor.start();
+		try {
+			executor.start();
+		} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
