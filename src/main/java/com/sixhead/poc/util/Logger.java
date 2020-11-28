@@ -31,6 +31,13 @@ public class Logger {
   public void error(String format, Object ...args) {
     this.error(String.format(format, args));
   }
+  public void debug(String message) {
+    var debugMessage = TextColor.printAsColor(AnsiCode.GREEN, message);
+    System.out.println(formatMessage(debugMessage));
+  }
+  public void debug(String format, Object ...args) {
+    this.debug(String.format(format, args));
+  }
 
   private String formatMessage(String message) {
     Date date = new Date(System.currentTimeMillis());;
